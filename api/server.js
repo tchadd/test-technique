@@ -1,7 +1,9 @@
 const express = require('express');
 const app = new express();
+const router = express.Router()
 const { MongoClient } = require('mongodb');
-require('dotenv').config();
+const dotenv = require('dotenv');
+dotenv.config();
 
 const client = new MongoClient(process.env.MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true });
 
@@ -18,22 +20,17 @@ function checkDb(){
   .then(console.log)
   .catch(console.error)
   .finally(() => client.close())
+
 }
 
-app.get('/products', async (req, res) => {
-  try {
-    checkDb()
-    const database = client.db();
-    const collection = database.collection('products');
-    const products = await collection.find({}).toArray();
-    res.json(products);
-  }
-  catch(err) {
-    console.error('Failed to fetch products', err);
-    res.status(500).send('Internal Server Error');
-  }
-})
+// middleware parse JSON requests if exists
+app.use(express.json());
 
+
+
+
+
+const PORT = process.env.PORT_NODEJS_SERVER || 3000;
 app.listen(3000, () => {
   console.log("Server Listening");
 });
