@@ -84,7 +84,3 @@ exports.deleteProduct = async (req, res) => {
     }
 };
 
-
-exports.haha = (req, res) => {
-    return res.send('test')
-}
