@@ -29,11 +29,12 @@ exports.showProduct = async(req, res) => {
     }
 }
 
-exports.createProduct = async (req, res) => {
+exports.addProduct = async (req, res) => {
     try {
-        const { name, price, description,type,rating,warranty_years,available } = req.body;
+        const { name, price,type,rating,warranty_years,available } = req.body;
         db = req.db;
-        const newProduct = await db.collection.create({ name, price, description,type,rating,warranty_years,available });
+        const lastIndex = await db.collection('products').find().count();
+        const newProduct = await db.collection('products').insertOne({ _id: lastIndex+1 ,name:name, price:price,type:type,rating:rating,warranty_years:warranty_years,available:available });
         res.status(201).json(newProduct);
     } catch (err) {
         console.error('Failed to create product', err);
@@ -44,24 +45,13 @@ exports.createProduct = async (req, res) => {
 exports.updateProduct = async (req, res) => {
     try {
         const productId = parseInt(req.params.id, 10);
-        const { name, price, description,type,rating,warranty_years,available } = req.body;
+        const { name, price,type,rating,warranty_years,available } = req.body;
         db = req.db;
         // check if the product exists
-        let product = await db.collection.findById(productId);
+        let product = await db.collection('products').updateOne({_id: productId},{ $set: req.body});
         if (!product) {
             return res.status(404).send('Product not found');
         }
-        // update data if is updating
-        if (name) product.name = name;
-        if (type) product.type = type;
-        if (price) product.price = price;
-        if (description) product.description = description;
-        if (rating) product.rating = rating;
-        if (warranty_years) product.warranty_years = warranty_years;
-        if (available) product.available = available;
-
-        // save product to db
-        await product.save();
         res.json(product);
     } catch (err) {
         console.error('Failed to update product', err);
@@ -72,8 +62,11 @@ exports.updateProduct = async (req, res) => {
 exports.deleteProduct = async (req, res) => {
     try {
         const productId = parseInt(req.params.id, 10);
-        db = db.req;
-        const deletedProduct = await db.collection.findByIdAndDelete(productId);
+        console.log(productId);
+        db = req.db
+        const deletedProduct = await db.collection('products').deleteOne({_id: productId});
+        console.log(deletedProduct);
+        // .deleteOne({id_: productId})
         if (!deletedProduct) {
             return res.status(404).send('Product not found');
         }

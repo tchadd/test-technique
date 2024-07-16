@@ -5,7 +5,7 @@ require('dotenv').config();
 const { connectToDb } = require("./config/db.js")
 
 async function main() {
-  const db = await connectToDb();
+  let db = await connectToDb();
 
   // Middleware to add db to req
   app.use((req, res, next) => {
