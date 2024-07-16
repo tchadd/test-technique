@@ -2,3 +2,6 @@
 /api/node_modules/
 /api/eslint.config.mjs
 /api/.env
+/front/package-lock.json
+/front/node_modules/
+
