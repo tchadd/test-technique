@@ -29,3 +29,16 @@ connection()
     .then(console.log)
     .catch(console.error)
     .finally(() => client.close())
+
+    app.get('/products', async (req, res) => {
+      try {
+        const database = client.db();
+        const collection = database.collection('products');
+        const products = await collection.find({}).toArray();
+        res.json(products);
+      }
+      catch(err) {
+        console.error('Failed to fetch products', err);
+        res.status(500).send('Internal Server Error');
+      }
+    })
