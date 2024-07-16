@@ -1,8 +1,7 @@
 exports.showAllProducts = async(req,res) => {
     try {
-        const database = client.db();
-        const ProductsCollection = database.collection('products');
-        const products = await collection.find({}).toArray();
+        db = req.db
+        const products = await db.collection('products').find().toArray();
         res.json(products);
     }
     catch (err) {
@@ -11,10 +10,14 @@ exports.showAllProducts = async(req,res) => {
     }
 }
 
+
 exports.showProduct = async(req, res) => {
     try{
         const productId = req.params.id;
-        const product = await Product.findById(productId);
+        const db = req.db
+        
+        console.log(productId);
+        const product = await db.collection.find({_id: productId}).limit(1).toArray();
         if (!product) {
             return res.status(404).send('Product not found');
         }
@@ -29,7 +32,7 @@ exports.showProduct = async(req, res) => {
 exports.createProduct = async (req, res) => {
     try {
         const { name, price, description,type,rating,warranty_years,available } = req.body;
-        const newProduct = await Product.create({ name, price, description,type,rating,warranty_years,available });
+        const newProduct = await productsCollection.create({ name, price, description,type,rating,warranty_years,available });
         res.status(201).json(newProduct);
     } catch (err) {
         console.error('Failed to create product', err);
@@ -43,7 +46,7 @@ exports.updateProduct = async (req, res) => {
         const { name, price, description,type,rating,warranty_years,available } = req.body;
 
         // check if the product exists
-        let product = await Product.findById(productId);
+        let product = await productsCollection.findById(productId);
         if (!product) {
             return res.status(404).send('Product not found');
         }
@@ -68,7 +71,7 @@ exports.updateProduct = async (req, res) => {
 exports.deleteProduct = async (req, res) => {
     try {
         const productId = req.params.id;
-        const deletedProduct = await Product.findByIdAndDelete(productId);
+        const deletedProduct = await productsCollection.findByIdAndDelete(productId);
         if (!deletedProduct) {
             return res.status(404).send('Product not found');
         }
@@ -78,3 +81,8 @@ exports.deleteProduct = async (req, res) => {
         res.status(500).send('Internal Server Error');
     }
 };
+
+
+exports.haha = (req, res) => {
+    return res.send('test')
+}
