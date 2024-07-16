@@ -1,12 +1,12 @@
 const express = require('express');
+const cors = require('cors')
 const app = new express();
 const productRoutes = require('./routes/products.js');
 require('dotenv').config();
 const { connectToDb } = require("./config/db.js")
-
 async function main() {
   let db = await connectToDb();
-
+  app.use(cors());
   // Middleware to add db to req
   app.use((req, res, next) => {
     req.db = db;
