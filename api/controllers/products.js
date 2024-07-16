@@ -13,11 +13,11 @@ exports.showAllProducts = async(req,res) => {
 
 exports.showProduct = async(req, res) => {
     try{
-        const productId = req.params.id;
+        const productId = parseInt(req.params.id, 10);
         const db = req.db
         
         console.log(productId);
-        const product = await db.collection.find({_id: productId}).limit(1).toArray();
+        const product = await db.collection('products').findOne({ _id: productId });
         if (!product) {
             return res.status(404).send('Product not found');
         }
@@ -32,7 +32,8 @@ exports.showProduct = async(req, res) => {
 exports.createProduct = async (req, res) => {
     try {
         const { name, price, description,type,rating,warranty_years,available } = req.body;
-        const newProduct = await productsCollection.create({ name, price, description,type,rating,warranty_years,available });
+        db = req.db;
+        const newProduct = await db.collection.create({ name, price, description,type,rating,warranty_years,available });
         res.status(201).json(newProduct);
     } catch (err) {
         console.error('Failed to create product', err);
@@ -42,11 +43,11 @@ exports.createProduct = async (req, res) => {
     
 exports.updateProduct = async (req, res) => {
     try {
-        const productId = req.params.id;
+        const productId = parseInt(req.params.id, 10);
         const { name, price, description,type,rating,warranty_years,available } = req.body;
-
+        db = req.db;
         // check if the product exists
-        let product = await productsCollection.findById(productId);
+        let product = await db.collection.findById(productId);
         if (!product) {
             return res.status(404).send('Product not found');
         }
@@ -70,8 +71,9 @@ exports.updateProduct = async (req, res) => {
 
 exports.deleteProduct = async (req, res) => {
     try {
-        const productId = req.params.id;
-        const deletedProduct = await productsCollection.findByIdAndDelete(productId);
+        const productId = parseInt(req.params.id, 10);
+        db = db.req;
+        const deletedProduct = await db.collection.findByIdAndDelete(productId);
         if (!deletedProduct) {
             return res.status(404).send('Product not found');
         }
