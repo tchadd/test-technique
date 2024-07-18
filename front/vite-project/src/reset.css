@@ -4,3 +4,7 @@ body {
   padding: 0;
   box-sizing: border-box;
 }
+
+body, html, #root{
+  height: 100%;
+}

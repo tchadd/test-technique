@@ -1,7 +1,1 @@
-/api/package-lock.json
-/api/node_modules/
-/api/eslint.config.mjs
-/api/.env
-/front/vite-project/package-lock.json
-/front/vite-project/node_modules/
-
+node_modules/
