@@ -5,6 +5,8 @@ this project is only intended to work in dev mode, as it's a technical test.
 
 You can see that there is a package.json in root, it's only for ide's typings.
 
+If you want to experiment view transitions, please use chromium browser, as firefox and safari don't actually supports it. view transitions will just not work on other browsers.
+
 ## SETUP
 
 ### ENVIRONMENT
