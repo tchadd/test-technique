@@ -23,14 +23,14 @@ async function main() {
     }
   })
 
-  io.use(async (s, n) => {
+  io.use(async (socket, next) => {
     try{
-      const token = s.handshake.auth.token
+      const token = socket.handshake.auth.token
 
       if(!await verifyTokenIsValid(token, db)) throw new Error()
-      n()
+        next()
     } catch (e){
-      n(new Error((e as any).toString()))
+      next(new Error((e as any).toString()))
     }
   })
 

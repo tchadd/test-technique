@@ -6,8 +6,6 @@ import ProductIndex from "./pages/products/Index";
 import ProductNew from "./pages/products/New";
 import ProductEdit from "./pages/products/Edit";
 import AuthLogin from "./pages/auth/Login";
-// import Add from "./pages/Add";
-// import Edit from "./pages/Edit";
 
 function App() {
   return (
