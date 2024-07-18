@@ -37,7 +37,7 @@ export default function AuthLogin(){
     }}>
         <Box sx={{display: "flex", justifyContent: "space-between", alignItems: "center", gridColumn: "span 2"}}>
             <h1>Se connecter</h1>
-            <Button onClick={() => navigate("/")}>Retour à l'accueil</Button>
+            <Button onClick={() => navigate("/")} style={{viewTransitionName: "back"}}>Retour à l'accueil</Button>
         </Box>
         {hasError && <Box color="red" sx={{display: "flex", justifyContent: "center", alignItems: "center", gridColumn: "span 2"}}>
             Mot de passe ou email invalides

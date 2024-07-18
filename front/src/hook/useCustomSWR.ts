@@ -1,4 +1,7 @@
+import { createBrowserRouter } from "react-router-dom";
 import useSWR from "swr";
+import { router } from "../router";
+import { vt } from "../utils/vt";
 
 function token(){
     const t = localStorage.getItem("token")
@@ -27,7 +30,7 @@ export const fetcher = function <T = any>(...a: Parameters<typeof fetch>) {
         .catch(e => {
             if(e instanceof UnauthenticatedError) {
                 localStorage.removeItem("token")
-                window.location.pathname = "/login"
+                router.navigate("/login")
             }
         }) as Promise<T>
 }

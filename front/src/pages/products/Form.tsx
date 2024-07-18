@@ -1,6 +1,7 @@
 import { Box, Button, Checkbox, FormControl, FormControlLabel, TextField, Icon, InputLabel } from "@mui/material"
 import React, { useCallback } from "react"
 import { useNavigate } from "react-router-dom"
+import { vt } from "../../utils/vt"
 
 interface ProductFormProps{
     product: Partial<Product>,
@@ -21,8 +22,8 @@ export default function ProductForm({product, alter, send}: ProductFormProps){
         padding: "2rem"
     }}>
         <Box sx={{display: "flex", justifyContent: "space-between", alignItems: "center", gridColumn: "span 2"}}>
-            <h1>{product._id ? "Modifier un" : "Nouveau"} produit</h1>
-            <Button onClick={() => navigate("/products")}>Retour aux produits</Button>
+            <h1>{product._id ? "Modifier le" : "Nouveau"} produit {product.name}</h1>
+            <Button onClick={() => vt(() => navigate("/products"))} style={{viewTransitionName: "back"}}>Retour aux produits</Button>
         </Box>
         {
             ([
